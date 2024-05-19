@@ -11,14 +11,15 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 
-  const paperTheme = ThemeModel();
+  const { paperTheme, appTheme, loadTheme, changeTheme } = ThemeModel();
   const [appIsReady, setAppIsReady] = useState(false);
   const { todo, completed, getData, moveToCompleted, moveToTodo, createTask, insertTodo } = StorageModel();
 
   useEffect(() => {
     async function Prepare() {
       try {
-        getData();
+        getData(); // Get app data from storage
+        loadTheme(); // Load app theme mode
       } catch (error) {
         Alert.alert('Error', 'Failed to load data', [{ text: "Close" }])
       } finally {
@@ -39,6 +40,8 @@ export default function App() {
     <PaperProvider theme={paperTheme}>
       <View style={styles.container} onLayout={onLayoutRootView}>
         <AppContext.Provider value={{
+          appTheme,
+          changeTheme,
           todo,
           completed,
           moveToCompleted,

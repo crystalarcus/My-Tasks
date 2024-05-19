@@ -1,4 +1,5 @@
 import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { useColorScheme } from "react-native";
 import { MD3DarkTheme, MD3LightTheme } from "react-native-paper";
@@ -14,5 +15,15 @@ export const ThemeModel = () => {
         appTheme == 'dark' ?
             { ...MD3DarkTheme, colors: theme.dark } :
             { ...MD3LightTheme, colors: theme.light }
-    return paperTheme
+
+    // LOAD THEME from STORAGE
+    const loadTheme = async () => {
+        setAppTheme(await AsyncStorage.getItem('@appTheme') ?? 'system')
+    }
+    // Save THEME to STORAGE
+    const changeTheme = async (value: string) => {
+        setAppTheme(value)
+        await AsyncStorage.setItem('@appTheme', value);
+    }
+    return { paperTheme, appTheme, loadTheme, changeTheme }
 }

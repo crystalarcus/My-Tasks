@@ -1,8 +1,10 @@
 import { createContext } from "react";
 
 type contextType = {
+    appTheme: string,
     todo: Array<Task>,
     completed: Array<Task>,
+    changeTheme: (value: string) => void,
     moveToCompleted: (index: number) => void,
     moveToTodo: (index: number) => void,
     createTask: (task: Task) => void,
@@ -12,8 +14,10 @@ type contextType = {
 export const AppContext = createContext<contextType>({
     todo: [],
     completed: [],
+    appTheme: 'system',
+    changeTheme: () => { },
     moveToCompleted: () => { },
     moveToTodo: () => { },
     createTask: () => { },
-    insertTodo: () => { }
+    insertTodo: () => { },
 });
