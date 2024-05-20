@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
-import Animated, { ZoomIn } from "react-native-reanimated";
+import Animated, { StretchInX, ZoomIn } from "react-native-reanimated";
 import { EasingEmphasizedDecelerate } from "../Motion";
 
 type FabProps = {
@@ -17,7 +17,7 @@ export const Fab = ({ title, onPress, isVisible, isExtended }: FabProps) => (
     }}>
         {isVisible ?
             /*  @ts-ignore */
-            <Animated.View entering={ZoomIn.duration(300).delay(100).easing(EasingEmphasizedDecelerate)}
+            <Animated.View entering={StretchInX.duration(450).delay(80).easing(EasingEmphasizedDecelerate)}
                 style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                 <AnimatedFAB
                     style={{
