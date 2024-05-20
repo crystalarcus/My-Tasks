@@ -17,11 +17,18 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
+        "monochromeImage": "./assets/monochrome.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.crystalarcus.MyTasks"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6771aa3a-2dcc-49a4-9368-9102022f3868"
+      }
     }
   }
 }
