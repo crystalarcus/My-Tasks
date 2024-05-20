@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { useColorScheme } from "react-native";
 import { MD3DarkTheme, MD3LightTheme } from "react-native-paper";
+import switchTheme from "react-native-theme-switch-animation";
 
 export const ThemeModel = () => {
     const [appTheme, setAppTheme] = useState('system');
@@ -22,7 +23,15 @@ export const ThemeModel = () => {
     }
     // Save THEME to STORAGE
     const changeTheme = async (value: string) => {
-        setAppTheme(value)
+        switchTheme({
+            switchThemeFunction: () => {
+                setAppTheme(value)
+            },
+            animationConfig:{
+                type:'fade',
+                duration:450
+            }
+        })
         await AsyncStorage.setItem('@appTheme', value);
     }
     return { paperTheme, appTheme, loadTheme, changeTheme }
