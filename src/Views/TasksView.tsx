@@ -80,17 +80,13 @@ export const TasksView = () => {
     );
 }
 
-
 function ListEmptyComponent() {
-    return (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-        <Icon source={"checkbox-marked-circle-outline"} size={40} />
-        <Text style={{ fontSize: 18 }}>No new tasks</Text>
+    return (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, marginTop:'50%' }}>
+        <Icon source={"checkbox-marked-circle-outline"} size={55} />
+        <Text style={{ fontSize: 22 }}>No new tasks</Text>
+        <Text style={{ fontSize: 14 }}>Created tasks will appear here</Text>
     </View>);
 }
 const styles = StyleSheet.create({
-    fabStyle: {
-        bottom: 16,
-        right: 16,
-        position: 'absolute',
-    },
+    
 });

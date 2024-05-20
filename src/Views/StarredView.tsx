@@ -84,9 +84,10 @@ export const StarredView = () => {
 }
 
 const ListEmptyComponent = () =>
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-        <Icon source={"star-outline"} size={40} />
-        <Text style={{ fontSize: 18 }}>No starred tasks</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: '50%' }}>
+        <Icon source={"star-outline"} size={55} />
+        <Text style={{ fontSize: 22 }}>No starred tasks</Text>
+        <Text style={{ fontSize: 14 }}>Starred tasks will appear here</Text>
     </View>
 
 const styles = StyleSheet.create({

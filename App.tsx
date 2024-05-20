@@ -22,7 +22,6 @@ export default function App() {
       try {
         getData(); // Get app data from storage
         loadTheme(); // Load app theme mode
-        await setBackgroundColorAsync(paperTheme.colors.elevation.level2)
         await setButtonStyleAsync(paperTheme.dark ? 'light' : 'dark');
       } catch (error) {
         Alert.alert('Error', 'Failed to load data', [{ text: "Close" }])

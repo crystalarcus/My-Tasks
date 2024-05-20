@@ -18,7 +18,7 @@ export const SettingsView = () => {
         <SafeAreaView style={{
             flex: 1,
             // @ts-ignore
-            backgroundColor: ViewModel.theme.colors.surfaceVariant
+            backgroundColor: ViewModel.theme.colors.surface
         }}>
             <Appbar mode="small" style={{ backgroundColor: 'transparent' }}>
                 <Appbar.Content title="Settings" />
@@ -63,7 +63,8 @@ const SettingsItem = ({ title, right, onPress, colors }: SettingsItemProps) => {
                 right={right}
                 style={[
                     styles.listStyle,
-                    { backgroundColor: colors.surface }
+                    // @ts-ignore
+                    { backgroundColor: colors.surfaceContainerLow }
                 ]}
                 onPress={onPress} />
         </View>
