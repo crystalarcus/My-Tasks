@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Appbar, Icon, IconButton, MD3Theme, Portal, Snackbar, Text, TouchableRipple } from "react-native-paper";
-import Animated from "react-native-reanimated";
+import Animated, { CurvedTransition } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StarredViewModel } from "../ViewModels/StarredViewModel";
 import { Fab } from "../Components/Fab";
 import { TaskItem } from "../Components/TaskItem";
 import { setBackgroundColorAsync } from "expo-navigation-bar";
+import { EasingStandard } from "../Motion";
 
 
 export const StarredView = () => {
@@ -50,6 +51,8 @@ export const StarredView = () => {
                 ListHeaderComponent={() => <Appbar mode='small'>
                     <Appbar.Content title="Starred" />
                 </Appbar>}
+                // @ts-ignore
+                itemLayoutAnimation={CurvedTransition.easingY(EasingStandard).duration(450)}
                 stickyHeaderHiddenOnScroll
                 stickyHeaderIndices={[0]}
                 onScroll={onScroll}

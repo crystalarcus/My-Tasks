@@ -1,12 +1,13 @@
 import { StyleSheet, View } from "react-native";
 import { Appbar, Icon, Portal, Snackbar, Text } from "react-native-paper";
-import Animated from "react-native-reanimated";
+import Animated, { CurvedTransition } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TasksViewModel } from "../ViewModels/TasksViewModel";
 import { TaskItem } from "../Components/TaskItem";
 import { Fab } from "../Components/Fab";
 import { useEffect } from "react";
 import { setBackgroundColorAsync } from "expo-navigation-bar";
+import { EasingEmphasizedDecelerate, EasingStandard } from "../Motion";
 
 
 export const TasksView = () => {
@@ -27,7 +28,7 @@ export const TasksView = () => {
     } = TasksViewModel();
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', async() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
             setFabVisible(true);
             await setBackgroundColorAsync(theme.colors.elevation.level2);
         });
@@ -47,6 +48,8 @@ export const TasksView = () => {
                 ListHeaderComponent={() => <Appbar mode='small'>
                     <Appbar.Content title="Tasks" />
                 </Appbar>}
+                // @ts-ignore
+                itemLayoutAnimation={CurvedTransition.easingY(EasingStandard).duration(450)}
                 stickyHeaderHiddenOnScroll
                 stickyHeaderIndices={[0]}
                 onScroll={onScroll}
@@ -81,12 +84,12 @@ export const TasksView = () => {
 }
 
 function ListEmptyComponent() {
-    return (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, marginTop:'50%' }}>
+    return (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: '50%' }}>
         <Icon source={"checkbox-marked-circle-outline"} size={55} />
         <Text style={{ fontSize: 22 }}>No new tasks</Text>
         <Text style={{ fontSize: 14 }}>Created tasks will appear here</Text>
     </View>);
 }
 const styles = StyleSheet.create({
-    
+
 });

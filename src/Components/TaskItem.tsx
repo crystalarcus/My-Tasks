@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet } from "react-native";
 import { MD3Theme, TouchableRipple, Icon, IconButton } from "react-native-paper";
-import Animated from "react-native-reanimated";
+import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { EasingEmphasizedDecelerate } from "../Motion";
 
 export const TaskItem = ({ task, theme, index, onCirclePress, onStarPress }: {
     task: Task, theme: MD3Theme, index: number,
@@ -12,6 +13,9 @@ export const TaskItem = ({ task, theme, index, onCirclePress, onStarPress }: {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     return (
         <Animated.View
+            // @ts-ignore
+            entering={ZoomIn.duration(450).easing(EasingEmphasizedDecelerate)}
+            exiting={ZoomOut}
             style={{
                 backgroundColor: theme.colors.surfaceVariant,
                 borderRadius: 16,
@@ -36,7 +40,7 @@ export const TaskItem = ({ task, theme, index, onCirclePress, onStarPress }: {
                             }
                         </View>
                     </View>
-                    <IconButton onPress={() =>onStarPress(index)} icon={task.isStarred ? 'star' : 'star-outline'}
+                    <IconButton onPress={() => onStarPress(index)} icon={task.isStarred ? 'star' : 'star-outline'}
                         iconColor={task.isStarred ? theme.colors.primary : theme.colors.onSurfaceVariant} />
                 </View>
             </TouchableRipple >
