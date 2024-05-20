@@ -4,12 +4,13 @@ import { useTheme } from "react-native-paper";
 import { AppContext } from "../AppContext";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 
 export const StarredViewModel = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const theme = useTheme();
-    const { todo, moveToCompleted, moveToTodo } = useContext(AppContext);
+    const { todo, moveToCompleted, toggleIsStarred } = useContext(AppContext);
     const [starredList, setStarredList] = useState<Array<Task>>([]);
     const [extra, setExtra] = useState(new Date().toString());
     const [snackVisible, setSnackVisible] = useState(false);
@@ -25,15 +26,22 @@ export const StarredViewModel = () => {
         nativeEvent.contentOffset.y > 20 ?
             setIsExtended(currentScrollVelocity < 0) : null;
     };
-    const onCreatePress = () => { navigation.navigate('CreateTask') }
+    const onCreatePress = async() => {
+        navigation.navigate('CreateTask');
+        await setBackgroundColorAsync(theme.colors.surface);
+    }
     const onCompletePress = (index: number) => {
         moveToCompleted(index);
         setExtra(new Date().toString())
         setSnackVisible(true)
         LoadStarredList();
     }
+    const onStarPress = (index: number) => {
+        toggleIsStarred(index);
+        LoadStarredList();
+    }
     const onSnackDismiss = () => setSnackVisible(false);
-   
+
     return {
         todo,
         starredList,
@@ -52,6 +60,7 @@ export const StarredViewModel = () => {
         onSnackDismiss,
         navigation,
         fabVisible,
-        setFabVisible
+        setFabVisible,
+        onStarPress
     }
 }

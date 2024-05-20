@@ -6,7 +6,8 @@ export const StorageModel = () => {
     // States
     const [todo, setTodo] = useState<Array<Task>>([]);
     const [completed, setCompleted] = useState<Array<Task>>([]);
-
+    const [cacheTodo, setCacheTodo] = useState<Array<Task>>([]);
+    const [cacheCompleted, setCacheCompleted] = useState<Array<Task>>([]);
     // Functions
 
     // LOAD DATA from STORAGE
@@ -22,10 +23,10 @@ export const StorageModel = () => {
     }
 
     // SAVE TO STORAGE : todo 
-    const saveTodo = async () => await AsyncStorage.setItem('todo', JSON.stringify(todo));
+    const saveTodo = async (_todo?: Array<Task>) => await AsyncStorage.setItem('todo', JSON.stringify(_todo ?? todo));
 
     // SAVE TO STORAGE : completed
-    const saveCompleted = async () => await AsyncStorage.setItem('completed', JSON.stringify(completed));
+    const saveCompleted = async (_completed?: Array<Task>) => await AsyncStorage.setItem('completed', JSON.stringify(_completed ?? completed));
 
     // CREATE TASK
     const createTask = async (task: Task) => {
@@ -40,12 +41,16 @@ export const StorageModel = () => {
     const insertTodo = async (task: Task, index: number) => {
         let _todo = todo;
         _todo.splice(index, 1, task);
-        await AsyncStorage.setItem('todo', JSON.stringify(_todo));
+        saveTodo(_todo);
     }
     // Move TASK todo -> completed
     const moveToCompleted = (index: number) => {
 
-        let _completed = completed; 
+        // SAVE todo and completed in CACHE for Undoing
+        setCacheTodo(todo);
+        setCacheCompleted(completed);
+        console.log(JSON.stringify(cacheTodo));
+        let _completed = completed;
         _completed.unshift(todo[index]); // PUSH TASK to copy
         _completed[0].isComplete = true; // UPDATE isCompete of TASK as TRUE
         setCompleted(_completed);  // save copy to original
@@ -55,12 +60,16 @@ export const StorageModel = () => {
         setTodo(_todo) // save COPY to todo
 
         // SAVE to STORAGE
-        saveCompleted();
-        saveTodo();
+        saveCompleted(_completed);
+        saveTodo(_todo);
     }
 
     // MOVE TASK : completed -> todo
     const moveToTodo = (index: number) => {
+
+        // SAVE todo and completed in CACHE for Undoing
+        setCacheTodo(todo);
+        setCacheCompleted(completed);
 
         let _todo = todo; // Make COPY of todo
         _todo.unshift(completed[index]); // PUSH TASK to COPY
@@ -72,9 +81,26 @@ export const StorageModel = () => {
         setCompleted(_completed);  // save COPY to completed
 
         // SAVE to STORAGE
-        saveCompleted();
-        saveTodo();
+        saveCompleted(_completed);
+        saveTodo(_todo);
+    }
 
+    // Mark task a task as star
+    const toggleIsStarred = (index: number) => {
+        let _todo = todo;
+        _todo[index].isStarred = !todo[index].isStarred;
+        setTodo(_todo);
+        saveTodo(_todo);
+    }
+
+    // Undo last action
+    const undoLastAction = () => {
+        console.log(JSON.stringify(todo));
+        setTodo(cacheTodo);
+        setCompleted(cacheCompleted);
+        saveTodo();
+        saveCompleted();
+        console.log(JSON.stringify(todo));
     }
 
     return {
@@ -84,6 +110,8 @@ export const StorageModel = () => {
         moveToCompleted,
         moveToTodo,
         createTask,
-        insertTodo
+        insertTodo,
+        toggleIsStarred,
+        undoLastAction,
     }
 }

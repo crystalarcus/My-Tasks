@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StarredViewModel } from "../ViewModels/StarredViewModel";
 import { Fab } from "../Components/Fab";
 import { TaskItem } from "../Components/TaskItem";
+import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 
 export const StarredView = () => {
@@ -23,13 +24,15 @@ export const StarredView = () => {
         onCompletePress,
         onSnackDismiss,
         fabVisible,
-        setFabVisible
+        setFabVisible,
+        onStarPress
     } = StarredViewModel();
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
+        const unsubscribe = navigation.addListener('focus', async () => {
             LoadStarredList();
             setFabVisible(true);
+            await setBackgroundColorAsync(theme.colors.elevation.level2);
         });
         const unsubscribe2 = navigation.addListener('blur', () => setFabVisible(false));
         return () => {
@@ -56,6 +59,7 @@ export const StarredView = () => {
                 renderItem={({ item, index }) => {
                     return <TaskItem task={item}
                         theme={theme}
+                        onStarPress={onStarPress}
                         index={index}
                         onCirclePress={onCompletePress} />
                 }} />

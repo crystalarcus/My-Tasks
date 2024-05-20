@@ -6,6 +6,7 @@ import { TasksViewModel } from "../ViewModels/TasksViewModel";
 import { TaskItem } from "../Components/TaskItem";
 import { Fab } from "../Components/Fab";
 import { useEffect } from "react";
+import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 
 export const TasksView = () => {
@@ -20,11 +21,16 @@ export const TasksView = () => {
         onSnackDismiss,
         navigation,
         fabVisible,
-        setFabVisible
+        setFabVisible,
+        onStarPress,
+        onSnackUndoPress
     } = TasksViewModel();
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => setFabVisible(true));
+        const unsubscribe = navigation.addListener('focus', async() => {
+            setFabVisible(true);
+            await setBackgroundColorAsync(theme.colors.elevation.level2);
+        });
         const unsubscribe2 = navigation.addListener('blur', () => setFabVisible(false));
         return () => {
             unsubscribe();
@@ -36,7 +42,7 @@ export const TasksView = () => {
         <SafeAreaView style={{ backgroundColor: theme.colors.surface, flex: 1 }}>
             <Animated.FlatList
                 style={{ height: '100%', }}
-                contentContainerStyle={{ paddingHorizontal: 8, gap: 8, paddingBottom:80, }}
+                contentContainerStyle={{ paddingHorizontal: 8, gap: 8, paddingBottom: 80, }}
                 ListEmptyComponent={ListEmptyComponent}
                 ListHeaderComponent={() => <Appbar mode='small'>
                     <Appbar.Content title="Tasks" />
@@ -49,6 +55,7 @@ export const TasksView = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item, index }) => {
                     return <TaskItem task={item}
+                        onStarPress={onStarPress}
                         theme={theme}
                         index={index}
                         onCirclePress={onCompletePress} />
@@ -63,7 +70,7 @@ export const TasksView = () => {
                 <View style={{ bottom: 90, flex: 1 }}>
                     <Snackbar visible={snackVisible}
                         duration={3000}
-                        action={{ label: "Undo", onPress: () => { } }}
+                        action={{ label: "Undo", onPress: () => onSnackUndoPress() }}
                         onDismiss={onSnackDismiss}>
                         Task marked as completed
                     </Snackbar>

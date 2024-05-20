@@ -9,6 +9,8 @@ type contextType = {
     moveToTodo: (index: number) => void,
     createTask: (task: Task) => void,
     insertTodo: (task: Task, index: number) => void,
+    toggleIsStarred: (index: number) => void,
+    undoLastAction: () => void,
 }
 
 export const AppContext = createContext<contextType>({
@@ -20,4 +22,6 @@ export const AppContext = createContext<contextType>({
     moveToTodo: () => { },
     createTask: () => { },
     insertTodo: () => { },
+    toggleIsStarred: () => { },
+    undoLastAction: () => { },
 });

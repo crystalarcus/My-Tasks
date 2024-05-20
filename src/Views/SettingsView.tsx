@@ -18,7 +18,7 @@ export const SettingsView = () => {
         <SafeAreaView style={{
             flex: 1,
             // @ts-ignore
-            backgroundColor: ViewModel.theme.colors.surfaceContainer
+            backgroundColor: ViewModel.theme.colors.surfaceVariant
         }}>
             <Appbar mode="small" style={{ backgroundColor: 'transparent' }}>
                 <Appbar.Content title="Settings" />

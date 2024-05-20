@@ -4,16 +4,16 @@ import { MD3Theme, TouchableRipple, Icon, IconButton } from "react-native-paper"
 import Animated from "react-native-reanimated";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
-export const TaskItem = ({ task, theme, index, onCirclePress }: {
+export const TaskItem = ({ task, theme, index, onCirclePress, onStarPress }: {
     task: Task, theme: MD3Theme, index: number,
     onCirclePress: (index: number) => void,
+    onStarPress: (index: number) => void
 }) => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     return (
         <Animated.View
             style={{
-                // @ts-ignore
-                backgroundColor: theme.colors.surfaceContainer,
+                backgroundColor: theme.colors.surfaceVariant,
                 borderRadius: 16,
                 overflow: 'hidden',
             }}>
@@ -36,7 +36,7 @@ export const TaskItem = ({ task, theme, index, onCirclePress }: {
                             }
                         </View>
                     </View>
-                    <IconButton onPress={() => { }} icon={task.isStarred ? 'star' : 'star-outline'}
+                    <IconButton onPress={() =>onStarPress(index)} icon={task.isStarred ? 'star' : 'star-outline'}
                         iconColor={task.isStarred ? theme.colors.primary : theme.colors.onSurfaceVariant} />
                 </View>
             </TouchableRipple >

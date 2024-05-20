@@ -4,17 +4,19 @@ import { useTheme } from "react-native-paper";
 import { AppContext } from "../AppContext";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 
 export const TasksViewModel = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const theme = useTheme();
-    const { todo, moveToCompleted } = useContext(AppContext);
+    const { todo, moveToCompleted, toggleIsStarred, undoLastAction } = useContext(AppContext);
     const [extra, setExtra] = useState(new Date().toString());
     const [snackVisible, setSnackVisible] = useState(false);
     const [isExtended, setIsExtended] = useState(true);
     const fabStyle = { ['right']: 16 };
     const [fabVisible, setFabVisible] = useState(true);
+
 
     const onScroll = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
         const currentScrollVelocity =
@@ -22,13 +24,26 @@ export const TasksViewModel = () => {
         nativeEvent.contentOffset.y > 20 ?
             setIsExtended(currentScrollVelocity < 0) : null;
     };
-    const onCreatePress = () => { navigation.navigate('CreateTask') }
+    const onCreatePress = async () => {
+        navigation.navigate('CreateTask');
+        await setBackgroundColorAsync(theme.colors.surface);
+    }
     const onCompletePress = (index: number) => {
         moveToCompleted(index);
         setExtra(new Date().toString())
         setSnackVisible(true)
     }
+    const onStarPress = (index: number) => {
+        toggleIsStarred(index);
+        setExtra(Date.now().toString())
+    }
     const onSnackDismiss = () => setSnackVisible(false);
+
+    const onSnackUndoPress = () => {
+        undoLastAction();
+        setSnackVisible(false)
+    }
+
     return {
         todo,
         moveToCompleted,
@@ -45,6 +60,8 @@ export const TasksViewModel = () => {
         onSnackDismiss,
         navigation,
         fabVisible,
-        setFabVisible
+        setFabVisible,
+        onStarPress,
+        onSnackUndoPress
     }
 }

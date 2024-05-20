@@ -6,6 +6,7 @@ import { StorageModel } from './src/Models/StorageModel';
 import { AppContext } from './src/AppContext';
 import { useCallback, useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
+import NavigationBar, { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -13,13 +14,16 @@ export default function App() {
 
   const { paperTheme, appTheme, loadTheme, changeTheme } = ThemeModel();
   const [appIsReady, setAppIsReady] = useState(false);
-  const { todo, completed, getData, moveToCompleted, moveToTodo, createTask, insertTodo } = StorageModel();
+  const { todo, completed, getData, moveToCompleted, moveToTodo,
+    toggleIsStarred, createTask, insertTodo, undoLastAction } = StorageModel();
 
   useEffect(() => {
     async function Prepare() {
       try {
         getData(); // Get app data from storage
         loadTheme(); // Load app theme mode
+        await setBackgroundColorAsync(paperTheme.colors.elevation.level2)
+        await setButtonStyleAsync(paperTheme.dark ? 'light' : 'dark');
       } catch (error) {
         Alert.alert('Error', 'Failed to load data', [{ text: "Close" }])
       } finally {
@@ -48,6 +52,8 @@ export default function App() {
           moveToTodo,
           createTask,
           insertTodo,
+          toggleIsStarred,
+          undoLastAction
         }}>
           <AppNavigation />
         </AppContext.Provider>
