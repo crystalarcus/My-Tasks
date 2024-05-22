@@ -6,7 +6,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StarredViewModel } from "../ViewModels/StarredViewModel";
 import { Fab } from "../Components/Fab";
 import { TaskItem } from "../Components/TaskItem";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
 import { EasingStandard } from "../Motion";
 
 
@@ -33,7 +32,7 @@ export const StarredView = () => {
         const unsubscribe = navigation.addListener('focus', async () => {
             LoadStarredList();
             setFabVisible(true);
-            await setBackgroundColorAsync(theme.colors.elevation.level2);
+            // await setBackgroundColorAsync(theme.colors.elevation.level2);
         });
         const unsubscribe2 = navigation.addListener('blur', () => setFabVisible(false));
         return () => {

@@ -6,8 +6,8 @@ import { TasksViewModel } from "../ViewModels/TasksViewModel";
 import { TaskItem } from "../Components/TaskItem";
 import { Fab } from "../Components/Fab";
 import { useEffect } from "react";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
-import { EasingEmphasizedDecelerate, EasingStandard } from "../Motion";
+// import { setBackgroundColorAsync } from "expo-navigation-bar";
+import {  EasingStandard } from "../Motion";
 
 
 export const TasksView = () => {
@@ -30,7 +30,7 @@ export const TasksView = () => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
             setFabVisible(true);
-            await setBackgroundColorAsync(theme.colors.elevation.level2);
+            // await setBackgroundColorAsync(theme.colors.elevation.level2);
         });
         const unsubscribe2 = navigation.addListener('blur', () => setFabVisible(false));
         return () => {

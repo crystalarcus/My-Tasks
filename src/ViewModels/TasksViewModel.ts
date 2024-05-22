@@ -4,7 +4,6 @@ import { useTheme } from "react-native-paper";
 import { AppContext } from "../AppContext";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 
 export const TasksViewModel = () => {
@@ -26,7 +25,7 @@ export const TasksViewModel = () => {
     };
     const onCreatePress = async () => {
         navigation.navigate('CreateTask');
-        await setBackgroundColorAsync(theme.colors.surface);
+        // await setBackgroundColorAsync(theme.colors.surface);
     }
     const onCompletePress = (index: number) => {
         moveToCompleted(index);

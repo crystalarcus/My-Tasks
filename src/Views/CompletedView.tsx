@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
-import { Appbar, Icon, Portal, Snackbar, Text } from "react-native-paper";
+import { View } from "react-native";
+import { Appbar, Portal, Snackbar } from "react-native-paper";
 import Animated, { CurvedTransition } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CompletedViewModel } from "../ViewModels/CompletedViewModel";
-import { TaskCompletedItem, TaskItem } from "../Components/TaskItem";
+import { TaskCompletedItem } from "../Components/TaskItem";
 import { EasingStandard } from "../Motion";
 
 export const CompletedView = () => {

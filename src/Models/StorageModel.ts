@@ -43,13 +43,17 @@ export const StorageModel = () => {
         _todo.splice(index, 1, task);
         saveTodo(_todo);
     }
-    // Move TASK todo -> completed
-    const moveToCompleted = (index: number) => {
 
+    const saveInCache = () => {
         // SAVE todo and completed in CACHE for Undoing
         setCacheTodo(todo);
         setCacheCompleted(completed);
-        console.log(JSON.stringify(cacheTodo));
+    }
+
+    // Move TASK todo -> completed
+    const moveToCompleted = (index: number) => {
+        saveInCache();
+
         let _completed = completed;
         _completed.unshift(todo[index]); // PUSH TASK to copy
         _completed[0].isComplete = true; // UPDATE isCompete of TASK as TRUE
@@ -67,9 +71,7 @@ export const StorageModel = () => {
     // MOVE TASK : completed -> todo
     const moveToTodo = (index: number) => {
 
-        // SAVE todo and completed in CACHE for Undoing
-        setCacheTodo(todo);
-        setCacheCompleted(completed);
+        saveInCache();
 
         let _todo = todo; // Make COPY of todo
         _todo.unshift(completed[index]); // PUSH TASK to COPY
@@ -95,12 +97,10 @@ export const StorageModel = () => {
 
     // Undo last action
     const undoLastAction = () => {
-        console.log(JSON.stringify(todo));
         setTodo(cacheTodo);
         setCompleted(cacheCompleted);
         saveTodo();
         saveCompleted();
-        console.log(JSON.stringify(todo));
     }
 
     return {

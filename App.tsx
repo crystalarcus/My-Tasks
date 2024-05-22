@@ -5,9 +5,11 @@ import { ThemeModel } from './src/Models/ThemeModel';
 import { StorageModel } from './src/Models/StorageModel';
 import { AppContext } from './src/AppContext';
 import { useCallback, useEffect, useState } from 'react';
+import { changeBarColors } from 'react-native-immersive-bars';
+import { enGB, registerTranslation } from 'react-native-paper-dates';
 import * as SplashScreen from 'expo-splash-screen';
-import NavigationBar, { setBackgroundColorAsync, setButtonStyleAsync } from 'expo-navigation-bar';
 
+registerTranslation('en', enGB);
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -22,20 +24,22 @@ export default function App() {
       try {
         getData(); // Get app data from storage
         loadTheme(); // Load app theme mode
-        await setButtonStyleAsync(paperTheme.dark ? 'light' : 'dark');
+        changeBarColors(paperTheme.dark, '#50000000', 'transparent');
+        // await setButtonStyleAsync(paperTheme.dark ? 'light' : 'dark');
       } catch (error) {
         Alert.alert('Error', 'Failed to load data', [{ text: "Close" }])
       } finally {
         setAppIsReady(true);
       }
     }
-    Prepare();
+    !appIsReady ?
+      Prepare() : null;
   }, [])
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();
     }
-  }, [appIsReady])
+  }, [appIsReady, appTheme])
   if (!appIsReady) {
     return null
   }

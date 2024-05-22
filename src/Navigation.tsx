@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { Icon } from "react-native-paper";
+import { Icon, useTheme } from "react-native-paper";
 import { TasksView } from "./Views/TasksView";
 import { CompletedView } from "./Views/CompletedView";
 import { SettingsView } from "./Views/SettingsView";
@@ -26,8 +26,13 @@ export const AppNavigation = () => {
 
     );
 }
-const MainNavigator = () =>
-    <Tab.Navigator initialRouteName="Tasks"
+const MainNavigator = () => {
+    const theme = useTheme();
+    return <Tab.Navigator initialRouteName="Tasks"
+        barStyle={{ backgroundColor: theme.colors.elevation.level2 }}
+        activeColor={theme.colors.onSurface}
+        inactiveColor={theme.colors.onSurfaceVariant}
+        activeIndicatorStyle={{ backgroundColor: theme.colors.secondaryContainer }}
         shifting
         sceneAnimationEnabled
         sceneAnimationType='shifting'
@@ -53,3 +58,4 @@ const MainNavigator = () =>
                 tabBarIcon: ({ focused }) => <Icon source={focused ? "cog" : "cog-outline"} size={24} />,
             }} />
     </Tab.Navigator>
+}
